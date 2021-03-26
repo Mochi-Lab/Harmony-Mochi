@@ -5,7 +5,6 @@ import Modal from 'antd/lib/modal/Modal';
 import { useParams } from 'react-router-dom';
 import { createSellOrder } from 'store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-// import bnb from 'Assets/binance-coin.svg';
 import one from 'Assets/one-coin.png';
 
 import './index.css';

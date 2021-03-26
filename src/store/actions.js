@@ -13,6 +13,7 @@ import axios from 'axios';
 import { getContractAddress } from 'utils/getContractAddress';
 import { message } from 'antd';
 import * as randomAvatarGenerator from '@fractalsoftware/random-avatar-generator';
+import { getWeb3List } from 'utils/getWeb3List';
 
 var contractAddress;
 
@@ -135,8 +136,12 @@ export const getOwnedERC721 = (erc721Instances) => async (dispatch, getState) =>
           token.index = await instance.methods.tokenOfOwnerByIndex(walletAddress, i).call();
           token.tokenURI = await instance.methods.tokenURI(token.index).call();
           token.addressToken = instance._address;
-          let req = await axios.get(token.tokenURI);
-          token.detail = req.data;
+          try {
+            let req = await axios.get(token.tokenURI);
+            token.detail = req.data;
+          } catch (error) {
+            token.detail = { name: '', description: '' };
+          }
           ERC721token.tokens.push(token);
         }
         resolve(ERC721token);
@@ -418,13 +423,26 @@ export const createSellOrder = (nftAddress, tokenId, price) => async (dispatch, 
 };
 
 export const buyNft = (orderDetail) => async (dispatch, getState) => {
-  const { market, walletAddress, erc721Instances } = getState();
+  const { market, walletAddress, erc721Instances, chainId } = getState();
   try {
     await market.methods
       .buy(orderDetail.sellId, 1, '0x')
       .send({ from: walletAddress, value: orderDetail.price })
       .on('receipt', (receipt) => {
-        message.success('Successfully purchased !');
+        message.success(
+          <div>
+            Successfully purchased
+            <a
+              target='_blank'
+              style={{ marginLeft: '5px' }}
+              rel='noopener noreferrer'
+              href={getWeb3List(chainId).explorer + receipt.transactionHash}
+            >
+              View
+            </a>
+          </div>,
+          5
+        );
       })
       .on('error', (error, receipt) => {
         console.log(error);

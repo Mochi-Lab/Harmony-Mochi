@@ -87,9 +87,13 @@ export default function DetailNFT() {
         setIndexAvailable(indexInAvalableSell);
         // get token info
         const token = await erc721Instances.methods.tokenURI(id).call();
-        let req = await axios.get(token);
-        let detail = req.data;
-        setToken(detail);
+        try {
+          let req = await axios.get(token);
+          let detail = req.data;
+          setToken(detail);
+        } catch (error) {
+          setToken({ name: '', description: '' });
+        }
       } catch (error) {
         console.log(error);
         message.error("NFT doesn't exist!");
@@ -238,7 +242,6 @@ export default function DetailNFT() {
                       <div className='feeService textmode'>
                         Service fee
                         <span className='pt textmode'> 2.5% </span>
-                        {/* <span className='eth-usd'> 0.308 BNB $470.95 </span> */}
                       </div>
                     </div>
                   </div>

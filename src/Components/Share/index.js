@@ -8,7 +8,7 @@ export default function Share({ token }) {
 
   const shareTwitter = () => {
     window.open(
-      `https://twitter.com/intent/tweet?text=${text}&url=${window.location.href}&hashtags=MochiMarket%2Cbnb%2Cnonfungible%2Cdigitalasset%2Cnft`,
+      `https://twitter.com/intent/tweet?text=${text}&url=${window.location.href}&hashtags=MochiMarket%one%2Cnonfungible%2Cdigitalasset%2Cnft`,
       '_blank',
       'toolbar=yes,resizable=yes,top=300,width=500,height=400'
     );

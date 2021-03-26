@@ -15,8 +15,12 @@ function ERC721Card({ token, strSearch }) {
   useEffect(() => {
     async function fetchDetail() {
       if (!!token && !!token.tokenURI) {
-        let req = await axios.get(token.tokenURI);
-        setDetailNFT(req.data);
+        try {
+          let req = await axios.get(token.tokenURI);
+          setDetailNFT(req.data);
+        } catch (error) {
+          setDetailNFT({ name: 'Unnamed', description: '', image: imgNotFound });
+        }
       } else {
         setDetailNFT({ name: '', description: '', image: imgNotFound });
       }
@@ -41,7 +45,7 @@ function ERC721Card({ token, strSearch }) {
                 <div className='sp-between'>
                   <strong>{detailNFT.name}</strong>
                   <strong>
-                    {!!token.price ? `${web3.utils.fromWei(token.price, 'ether')} BNB` : <></>}
+                    {!!token.price ? `${web3.utils.fromWei(token.price, 'ether')} ONE` : <></>}
                   </strong>
                 </div>
               }
