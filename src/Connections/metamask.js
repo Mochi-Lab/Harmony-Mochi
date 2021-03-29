@@ -42,11 +42,10 @@ export const connectMetaMask = async () => {
     } else {
       const web3 = new Web3(window.ethereum);
       let chainId = await web3.eth.net.getId();
-      store.dispatch(setWeb3(web3));
       let accounts = await web3.eth.getAccounts();
 
-      store.dispatch(setChainId(chainId));
       if (chainId === 1666700000) {
+        store.dispatch(setChainId(chainId));
         store.dispatch(setWeb3(web3));
         if (accounts.length > 0) {
           // Sync 3box
