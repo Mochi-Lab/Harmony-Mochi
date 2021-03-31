@@ -52,6 +52,10 @@
   padding: 32px;
 }
 
+.btns-actions {
+  width: 100%;
+}
+
 .btL {
   position: absolute;
   left: 15px;

@@ -11,7 +11,8 @@ const generateURI = async (
   form,
   setFiles,
   setIsLoading,
-  isCreateNew
+  isCreateNew,
+  setVisible
 ) => {
   let draw = {
     name,
@@ -24,13 +25,15 @@ const generateURI = async (
     let ipfsHash = results.cid.string;
     setIsLoading(false);
     let tokenUri = 'https://gateway.ipfs.io/ipfs/' + ipfsHash;
+    setVisible(true);
     await store.dispatch(generateNFT(isCreateNew, tokenUri));
-
+    setVisible(false);
     // reset input
     setFiles([]);
     form.resetFields();
   } catch (error) {
     setIsLoading(false);
+    setVisible(false);
     // reset input
     setFiles([]);
     form.resetFields();
@@ -38,7 +41,15 @@ const generateURI = async (
   }
 };
 
-export const uploadIPFS = async (values, form, files, setFiles, setIsLoading, isCreateNew) => {
+export const uploadIPFS = async (
+  values,
+  form,
+  files,
+  setFiles,
+  setIsLoading,
+  isCreateNew,
+  setVisible
+) => {
   setIsLoading(true);
   // post file to IPFS, get the IPFS hash and store it in contract
   try {
@@ -48,7 +59,7 @@ export const uploadIPFS = async (values, form, files, setFiles, setIsLoading, is
       let results = await ipfs.add(reader.result);
       let ipfsHash = results.cid.string;
       let image = 'https://gateway.ipfs.io/ipfs/' + ipfsHash;
-      generateURI(values, image, form, setFiles, setIsLoading, isCreateNew);
+      await generateURI(values, image, form, setFiles, setIsLoading, isCreateNew, setVisible);
     };
   } catch (error) {
     console.error(error);

@@ -1,20 +1,17 @@
 import { useState } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { registerNft } from 'store/actions';
 import './index.css';
+import { useSelector } from 'react-redux';
 
 export default function SubmitNFT() {
-  const [current, setCurrent] = useState(0);
+  const { walletAddress } = useSelector((state) => state);
   const [contractAddress, setContractAddress] = useState('');
   const dispatch = useDispatch();
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-
-  const register = () => {
-    dispatch(registerNft(contractAddress));
+  const register = ({ isERC1155 }) => {
+    if (!!walletAddress) dispatch(registerNft(contractAddress, isERC1155));
+    else message.warn('Please login before submit');
   };
 
   return (
@@ -22,20 +19,22 @@ export default function SubmitNFT() {
       <div className='steps-content '>
         <div>
           <p className='get-listed'>Enter your contract address</p>
-          <p className='select-network'>What is the address of your ERC721 ?</p>
+          <p className='select-network'>What is the address of your HRC721 ?</p>
           <div>
             <Input
               className='input-address input-mode-bc'
               size='large'
-              placeholder='Enter your ERC721 contract address'
+              placeholder='Enter your HRC721 contract address'
               onChange={(event) => setContractAddress(event.target.value)}
             />
           </div>
 
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()} shape='round' size='large'>
-            Previous
-          </Button>
-          <Button type='primary' onClick={() => register()} shape='round' size='large'>
+          <Button
+            type='primary'
+            onClick={() => register({ isERC1155: false })}
+            shape='round'
+            size='large'
+          >
             Submit
           </Button>
         </div>

@@ -4,10 +4,12 @@ import { Modal, Button, Input } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { transferNft } from 'store/actions';
+import LoadingModal from 'Components/Loading';
 
 export default function Transfer({ token }) {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [transferTo, setTransferTo] = useState('');
   const { addressToken, id } = useParams();
 
@@ -16,7 +18,9 @@ export default function Transfer({ token }) {
   };
 
   const handleOk = async () => {
+    setVisible(true);
     await dispatch(transferNft(addressToken, transferTo, id));
+    setVisible(false);
     setIsModalVisible(false);
   };
 
@@ -30,6 +34,7 @@ export default function Transfer({ token }) {
 
   return (
     <>
+      <LoadingModal title='Transfer' visible={visible} />
       <div className='gSzfBw'>
         <Button shape='round' size='large' onClick={showModal}>
           Transfer

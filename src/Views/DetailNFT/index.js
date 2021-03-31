@@ -17,6 +17,7 @@ import Cancel from 'Components/Cancel';
 import Transfer from 'Components/Transfer';
 import ConnectWallet from 'Components/ConnectWallet';
 import Share from 'Components/Share';
+import BackButton from 'Components/BackButton';
 import './style.css';
 
 const { TabPane } = Tabs;
@@ -138,7 +139,9 @@ export default function DetailNFT() {
             <div className='content-nft'>
               <div className='nft-content content'>
                 <div className='btns-actions'>
-                  <div className='btns'>
+                  <div className='btns justifyContent'>
+                    <BackButton />
+
                     <Button
                       shape='circle'
                       icon={<ExpandAltOutlined />}

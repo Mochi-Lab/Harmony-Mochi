@@ -35,13 +35,13 @@ export default function Create() {
             <p>Single</p>
           </div>
 
-          <div className='box input-mode-bc slt center' onClick={() => push('/create/erc1155')}>
+          {/* <div className='box input-mode-bc slt center' onClick={() => push('/create/erc1155')}>
             <img
               src='https://rarible.com/static/48dc30c106da96755b60ead8627c8888.png'
               alt='multiple'
             />
             <p>Multiple</p>
-          </div>
+          </div> */}
         </div>
 
         <p className='textmode'>

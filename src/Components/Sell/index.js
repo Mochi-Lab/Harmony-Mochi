@@ -8,10 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import one from 'Assets/one-coin.png';
 
 import './index.css';
+import LoadingModal from 'Components/Loading';
 
 export default function Sell({ token }) {
   const dispatch = useDispatch();
   const [price, setPrice] = useState();
+  const [visible, setVisible] = useState(false);
   const { addressToken, id } = useParams();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { web3 } = useSelector((state) => state);
@@ -21,8 +23,10 @@ export default function Sell({ token }) {
   };
 
   const handleOk = async () => {
-    await dispatch(createSellOrder(addressToken, id, web3.utils.toWei(price.toString(), 'ether')));
     setIsModalVisible(false);
+    setVisible(true);
+    await dispatch(createSellOrder(addressToken, id, web3.utils.toWei(price.toString(), 'ether')));
+    setVisible(false);
   };
 
   const handleCancel = () => {
@@ -35,6 +39,7 @@ export default function Sell({ token }) {
 
   return (
     <>
+      <LoadingModal title={'Sell'} visible={visible} />
       <div className='gSzfBw'>
         <Button type='primary' shape='round' size='large' onClick={showModal}>
           Sell

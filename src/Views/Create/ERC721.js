@@ -4,8 +4,8 @@ import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
-import IconLoading from 'Components/IconLoading';
 import Collections from './Collections';
+import LoadingModal from 'Components/Loading';
 import ConnectWallet from 'Components/ConnectWallet';
 import { uploadSia } from './sia';
 import { uploadIPFS } from './ipfs';
@@ -15,6 +15,7 @@ const { TextArea } = Input;
 
 export default function CreateERC721() {
   const { walletAddress } = useSelector((state) => state);
+  const [visible, setVisible] = useState(false);
   const [storage, setStorage] = useState(0);
   const [isCreateNew, setIsCreateNew] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,23 +46,19 @@ export default function CreateERC721() {
     setStorage(e.target.value);
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     if (files.length > 0) {
-      if (storage === 0) uploadIPFS(values, form, files, setFiles, setIsLoading, isCreateNew);
-      else uploadSia(values, form, files, setFiles, setIsLoading, isCreateNew);
+      if (storage === 0)
+        await uploadIPFS(values, form, files, setFiles, setIsLoading, isCreateNew, setVisible);
+      else await uploadSia(values, form, files, setFiles, setIsLoading, isCreateNew);
     } else message.warn('Did you forget upload an Image ?');
   };
 
   return (
     <div className='center create-pt'>
-      {isLoading ? (
-        <div className='center loading'>
-          <IconLoading />
-        </div>
-      ) : (
-        <></>
-      )}
+      {isLoading ? <LoadingModal title={'Upload Image'} visible={true} /> : <></>}
       <div className='my-collection'>
+        <LoadingModal title={'Create NFT'} visible={visible} />
         <Button type='text' onClick={goBack} icon={<ArrowLeftOutlined />} className='textmode'>
           Go Back
         </Button>

@@ -46,7 +46,7 @@ const generateURI = ({ name, description }, image, form, setFiles, setIsLoading,
     });
 };
 
-export const uploadSia = (values, form, files, setFiles, setIsLoading, isCreateNew) => {
+export const uploadSia = async (values, form, files, setFiles, setIsLoading, isCreateNew) => {
   // Start Upload image
   setIsLoading(true);
 
