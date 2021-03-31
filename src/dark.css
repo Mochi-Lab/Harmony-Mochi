@@ -21,6 +21,10 @@ html[data-theme='dark'] {
   color: #fff !important;
 }
 
+[data-theme='dark'] .ant-modal-close-icon {
+  color: #fff !important;
+}
+
 [data-theme='dark'] .page {
   background: rgb(18, 18, 18) !important;
 }
@@ -30,10 +34,6 @@ html[data-theme='dark'] {
 }
 
 [data-theme='dark'] .ant-card {
-  background: rgb(18, 18, 18) !important;
-}
-
-[data-theme='dark'] .center {
   background: rgb(18, 18, 18) !important;
 }
 

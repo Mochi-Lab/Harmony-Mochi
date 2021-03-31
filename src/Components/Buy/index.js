@@ -1,5 +1,5 @@
 import 'Views/DetailNFT/style.css';
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import { useDispatch } from 'react-redux';
 import { buyNft } from 'store/actions';
 import LoadingModal from 'Components/Loading';
@@ -11,14 +11,36 @@ export default function Buy({ orderDetail }) {
 
   const buy = async () => {
     setVisible(true);
-    await dispatch(buyNft(orderDetail));
+    let link = await dispatch(buyNft(orderDetail));
+    openNotification(link);
     setVisible(false);
+  };
+
+  const openNotification = (link) => {
+    notification.open({
+      message: 'Successfully purchased',
+      description: (
+        <div>
+          Great !! This NFT is your now. Check transaction :
+          <a target='_blank' style={{ marginLeft: '5px' }} rel='noopener noreferrer' href={link}>
+            View
+          </a>
+        </div>
+      ),
+      duration: 6,
+    });
   };
 
   return (
     <div className='actions-btn'>
       <div className='gSzfBw'>
-        <LoadingModal title={'Buy'} visible={visible} />
+        <LoadingModal
+          title='Buy'
+          modalTitle='Pending'
+          description='Please wait for a second'
+          isPending={true}
+          visible={visible}
+        />
         <Button type='primary' shape='round' size='large' onClick={buy}>
           Buy now
         </Button>

@@ -15,7 +15,6 @@ export default function LoadingModal({ title, visible }) {
 
   return (
     <>
-      {console.log(isModalVisible)}
       <Modal
         title={
           <p
@@ -33,7 +32,7 @@ export default function LoadingModal({ title, visible }) {
       >
         <div style={{ display: 'flex' }}>
           <div className='center' style={{ marginRight: '15px' }}>
-            <LoadingOutlined style={{ fontSize: '31px' }} />
+            <LoadingOutlined className='textmode' style={{ fontSize: '31px' }} />
           </div>
           <div>
             <p

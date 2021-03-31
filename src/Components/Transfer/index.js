@@ -34,7 +34,7 @@ export default function Transfer({ token }) {
 
   return (
     <>
-      <LoadingModal title={'Transfer'} visible={visible} />
+      <LoadingModal title='Transfer' visible={visible} />
       <div className='gSzfBw'>
         <Button shape='round' size='large' onClick={showModal}>
           Transfer

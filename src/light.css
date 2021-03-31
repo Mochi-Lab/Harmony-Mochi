@@ -30,12 +30,12 @@ html[data-theme='light'] {
 [data-theme='light'] .textmode,
 .search-style,
 .ant-select-suffix > svg,
+.ant-modal-close-icon,
 .ant-form-item-required {
   color: black !important;
 }
 
 [data-theme='light'] .ant-menu-submenu-popup > .ant-menu,
-.center,
 .ant-radio-button-wrapper {
   background-color: #fff !important;
 }
