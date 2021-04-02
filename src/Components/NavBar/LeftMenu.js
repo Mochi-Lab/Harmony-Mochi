@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Grid, Col, Select } from 'antd';
+import { Input, Grid, Col, Tag, Badge } from 'antd';
 import { setStrSearch, setWeb3 } from 'store/actions';
 import { SearchOutlined } from '@ant-design/icons';
 import { getWeb3List, web3Default, networkDefault } from 'utils/getWeb3List';
@@ -9,7 +9,6 @@ import store from 'store/index';
 import './index.css';
 
 const { useBreakpoint } = Grid;
-const { Option } = Select;
 
 export default function LeftNar() {
   const dispatch = useDispatch();
@@ -30,30 +29,19 @@ export default function LeftNar() {
     store.dispatch(setStrSearch(text));
   };
 
-  function handleChange(value) {
-    setNetwork(value);
-  }
-
   return (
     <Col
       span={md ? 40 : 25}
       className={location.pathname === '/browse' ? 'center' : 'alignItems'}
       style={{ height: '46px', paddingLeft: md ? '0px' : '10px' }}
     >
-      <Select
-        size='large'
-        defaultValue={network}
-        value={network}
-        className='input-search-nft textmode'
-        style={{ minWidth: 180, marginRight: 10 }}
-        onChange={handleChange}
-      >
-        {Object.keys(web3Default).map((item) => (
-          <Option key={item} value={parseInt(item)}>
-            {web3Default[`${item}`].name}
-          </Option>
-        ))}
-      </Select>
+      <Tag color='success' className='input-search-nft' style={{ minWidth: 150, marginRight: 10 }}>
+        <Badge
+          status='processing'
+          color='#52c31e'
+          text={<span style={{ color: '#52c31e' }}>{web3Default[`${network}`].name}</span>}
+        />
+      </Tag>
 
       {location.pathname === '/browse' ? (
         <Input

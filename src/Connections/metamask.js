@@ -9,6 +9,25 @@ const getThreeBox = async (address) => {
   return profile;
 };
 
+const autoAddNetworkBSC = async () => {
+  await window.ethereum.request({
+    method: 'wallet_addEthereumChain',
+    params: [
+      {
+        chainId: '0x6357D2E0',
+        chainName: 'Harmony testnet',
+        nativeCurrency: {
+          name: 'ONE',
+          symbol: 'ONE',
+          decimals: 18,
+        },
+        rpcUrls: ['https://api.s0.b.hmny.io/'],
+        blockExplorerUrls: ['https://explorer.pops.one/#/'],
+      },
+    ],
+  });
+};
+
 const Sync3Box = async (address, provider) => {
   try {
     const threeBoxProfile = await getThreeBox(address);
@@ -25,6 +44,8 @@ const Sync3Box = async (address, provider) => {
 
 export const connectMetaMask = async () => {
   // this returns the provider, or null if it wasn't detected
+  await autoAddNetworkBSC();
+
   const provider = await detectEthereumProvider();
   const ethereum = window.ethereum;
 
@@ -74,7 +95,9 @@ export const connectMetaMask = async () => {
 
   function handleChainChanged(_chainId) {
     // We recommend reloading the page, unless you must do otherwise
-    window.location.reload();
+    // store.dispatch(setChainId(_chainId));
+    console.log(_chainId);
+    // window.location.reload();
   }
 
   /***********************************************************/
